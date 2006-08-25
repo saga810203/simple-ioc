@@ -76,9 +76,8 @@ public class DefaultBeanFactory implements BeanFactory {
 	 * @return
 	 */
 	public Object getBean(String beanId, Map<Object, Object> context) {
-		if (beanId == null) {
-			throw new IllegalArgumentException("beanId can't be null: beanId="
-					+ beanId);
+		if (beanId == null || beanId.length()==0) {
+			throw new IllegalArgumentException("beanId can't be null or empty.");
 		}
 		Node node = null;
 		if (beanId.charAt(0) == '(') {
