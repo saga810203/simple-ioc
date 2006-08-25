@@ -20,10 +20,33 @@ public class BeanFactoryUtils {
 		return create(parent, null, configFilePaths);
 	}
 
+    public static BeanFactory createButNoDefaultConfig(BeanFactory parent,
+            String... configFilePaths) {
+        return createButNoDefaultConfig(parent, null, configFilePaths);
+    }
+    
 	public static BeanFactory create(Class location, String... configFilePaths) {
 		return create(null, location, configFilePaths);
 	}
+    
+    /**
+     * 初始化BeanFactory。
+     * 
+     * @param configFilePath
+     *            beanFactory的配置文件路径
+     */
+    public static BeanFactory createButNoDefaultConfig(BeanFactory parent, Class location,
+            String... configFilePaths) {
+        String[] configs = null;
 
+        if (configFilePaths == null || configFilePaths.length == 0) {
+            configs = new String[] {CONFIG_FILE };
+        } else {
+            configs = configFilePaths;
+        }
+        return create(new TreeMap().load(location, configs), parent);
+    }
+    
 	/**
 	 * 初始化BeanFactory。
 	 * 

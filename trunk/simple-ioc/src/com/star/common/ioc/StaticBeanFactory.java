@@ -64,7 +64,7 @@ public class StaticBeanFactory {
 	}
 
 	public static void init(BeanFactory parent, String... configFilePaths) {
-		instance = BeanFactoryUtils.create(parent, configFilePaths);
+		instance = BeanFactoryUtils.createButNoDefaultConfig(parent, configFilePaths);
 	}
 
 	public static void init(Class location, String... configFilePaths) {
@@ -79,7 +79,7 @@ public class StaticBeanFactory {
 	 */
 	public static void init(BeanFactory parent, Class location,
 			String... configFilePaths) {
-		instance = BeanFactoryUtils.create(parent, location, configFilePaths);
+		instance = BeanFactoryUtils.createButNoDefaultConfig(parent, location, configFilePaths);
 	}
 
 	public static void init(Map<String, Node> configTreeMap) {
