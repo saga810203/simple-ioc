@@ -3,6 +3,7 @@ package com.star.common.util;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -14,12 +15,12 @@ import java.util.Stack;
  * <p>
  * 
  * <pre>
- *    key0				:	value0
- *    	-key00			:	value00
- *   		--key000	:	value000
- *   	-key01			:	
- *    key1			
- *    	-key10			:	value10
+ *      key0				:	value0
+ *      	-key00			:	value00
+ *     		--key000	:	value000
+ *     	-key01			:	
+ *      key1			
+ *      	-key10			:	value10
  * </pre>
  * 
  * <p>
@@ -32,11 +33,11 @@ import java.util.Stack;
  * 可以使用“<-”标记来注入节点，“<-”的后一位如果为数组则表示插入的位置，如果为“-”则表示插入到最后，例如： <br>
  * 
  * <pre>
- *    key0                        :	value0
- *            -key00              :	value00
- *    key0&lt;-0key01                :	value01
- *                    --key010    :	value010
- *    key0&lt;--key02                :	value02
+ *      key0                        :	value0
+ *              -key00              :	value00
+ *      key0&lt;-0key01                :	value01
+ *                      --key010    :	value010
+ *      key0&lt;--key02                :	value02
  * </pre>
  * 
  * “key0<-0key01”将在Node{key0}的子节点列表的第一位插入一个{key:"key01", value:"value01"}的节点，
@@ -53,6 +54,8 @@ public class TreeMap extends LinkedHashMap<String, Node> {
     public static final String FILE_PREFIX = "file:";
 
     private static final char LAY_CHAR = '-';
+
+    private String encoding = null;
 
     private Stack<Node> s = new Stack<Node>();
 
@@ -92,7 +95,7 @@ public class TreeMap extends LinkedHashMap<String, Node> {
      */
     public void load(InputStream inStream) {
         try {
-            new Properties() {
+            Properties temp = new Properties() {
                 private static final long serialVersionUID = 1L;
 
                 public synchronized Node put(Object key, Object value) {
@@ -109,7 +112,14 @@ public class TreeMap extends LinkedHashMap<String, Node> {
                     add(key2, value2, lay);
                     return null;
                 }
-            }.load(inStream);
+            };
+            if (this.encoding == null) {
+                temp.load(inStream);
+            }
+            else {
+                new DefaultPropertiesPersister().load(temp, new InputStreamReader(inStream,
+                        encoding));
+            }
         }
         catch (IOException e) {
             throw new RuntimeException(e);
@@ -298,6 +308,14 @@ public class TreeMap extends LinkedHashMap<String, Node> {
         for (Node child : node.getChildren()) {
             visit(lay + 1, child, b);
         }
+    }
+
+    public String getEncoding() {
+        return encoding;
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
     }
 
 }
