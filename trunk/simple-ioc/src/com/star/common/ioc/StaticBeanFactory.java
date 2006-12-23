@@ -37,6 +37,10 @@ public class StaticBeanFactory {
 		return instance.getBean(beanId, context, requiredType);
 	}
 
+    public static String[] getBeanNames(){
+        return instance.getBeanNames();
+    }
+    
 	public static Object getBean(String beanId, Map<Object, Object> context) {
 		return instance.getBean(beanId, context);
 	}
