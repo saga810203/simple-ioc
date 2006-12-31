@@ -1,5 +1,6 @@
 package com.star.common.ioc;
 
+import java.util.List;
 import java.util.Map;
 
 import com.star.common.util.Node;
@@ -74,16 +75,30 @@ public interface BeanFactory {
      *            被处理的节点
      * @param valueString
      *            处理的value字符串
-     * @param context
+     * @param context 上下文
      * @return
      */
     Object getBean(Node node, String valueString, Map<Object, Object> context);
 
     /**
-     * 得到所有bean的名称。
+     * 得到所有bean的Id。
      * 
-     * @return bean名称数组，不可能为null
+     * @return beanId数组，不可能为null
      */
-    String[] getBeanNames();
+    String[] getBeanIds();
+
+    /**
+     * 按照类型得到bean数组。
+     * @param type 对象类型
+     * @return beanId数组
+     */
+    <T> List<T> getBeansByType(Class<T> type);
+
+    /**
+     * 按照类型得到bean。当存在多个该类型的bean，或不存在该类型的bean时，抛出异常。
+     * @param type 对象类型
+     * @return bean
+     */
+    <T> T getBeanByType(Class<T> type);
 
 }
