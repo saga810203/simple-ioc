@@ -1,5 +1,6 @@
 package com.star.common.ioc;
 
+import java.util.List;
 import java.util.Map;
 
 import com.star.common.util.Node;
@@ -36,10 +37,6 @@ public class StaticBeanFactory {
 			Class<T> requiredType) {
 		return instance.getBean(beanId, context, requiredType);
 	}
-
-    public static String[] getBeanNames(){
-        return instance.getBeanNames();
-    }
     
 	public static Object getBean(String beanId, Map<Object, Object> context) {
 		return instance.getBean(beanId, context);
@@ -49,6 +46,18 @@ public class StaticBeanFactory {
 		return instance.containsBean(beanId);
 	}
 
+    public static String[] getBeanIds(){
+        return instance.getBeanIds();
+    }
+    
+    public static <T> List<T> getBeansByType(Class<T> type){
+        return instance.getBeansByType(type);
+    }
+
+    public static<T> T getBeanByType(Class<T> type){
+        return instance.getBeanByType(type);
+    }
+    
 	public static BeanFactory getBeanFactory() {
 		return instance;
 	}

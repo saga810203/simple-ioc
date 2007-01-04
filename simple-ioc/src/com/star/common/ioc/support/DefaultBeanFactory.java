@@ -1,6 +1,8 @@
 package com.star.common.ioc.support;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -188,11 +190,29 @@ public class DefaultBeanFactory implements BeanFactory {
         }
     }
 
-    public String[] getBeanNames() {
+    public String[] getBeanIds() {
         if (configMap == null) {
             return new String[0];
         }
         Set<String> keys = configMap.keySet();
         return keys.toArray(new String[keys.size()]);
     }
+
+    public <T> List<T> getBeansByType(Class<T> type) {
+        List<T> list = new ArrayList<T>();
+        for (String beanId : getBeanIds()) {
+            T bean = getBean(beanId, type);
+            list.add(bean);
+        }
+        return list;
+    }
+
+    public <T> T getBeanByType(Class<T> type) {
+        List<T> list = getBeansByType(type);
+        if(list.size()!=1){
+            throw new RuntimeException("getBeansByType(type)!=1"); 
+        }
+        return list.get(0);
+    }
+
 }
