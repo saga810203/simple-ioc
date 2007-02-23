@@ -2,7 +2,6 @@ package com.star.common.util;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,8 +18,6 @@ public class Node implements Serializable{
 	private String key;
 
 	private String value;
-	//节点所属层次
-	private int lay;
 
 	private List<Node> children = new ArrayList<Node>();
 	
@@ -28,62 +25,6 @@ public class Node implements Serializable{
 	
 	//=====================
 	
-	public static final int VALUE_CACHE = 0;//"value_cache";
-
-	public static final int OTHER_CACHE = 1;
-	
-	private static final Object NULL = new Serializable(){};
-	
-	private Object[] datas = new Object[2];
-	
-	//private Map<Object, Object> datas = new HashMap<Object, Object>();
-
-	//=====================
-	
-	public Node(){
-		Arrays.fill(datas,NULL);
-	}
-	
-	public String getKey() {
-		return key;
-	}
-
-	public void setKey(String id) {
-		this.key = id;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public int getLay() {
-		return lay;
-	}
-
-	public void setLay(int lay) {
-		this.lay = lay;
-	}
-
-	public void setChildren(List<Node> children) {
-		this.children.clear();
-		if (children != null)
-			for (Node c : children) {
-				addChild(c);
-			}
-	}
-
-	public List<Node> getChildren() {
-		return children;
-	}
-
-	public Node getParent() {
-		return parent;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
-
 	public String getKeyPath() {
 		StringBuilder b = new StringBuilder();
 		b.append(key);
@@ -106,7 +47,7 @@ public class Node implements Serializable{
 	}
 
 	public String toString() {
-		return "Node{key:" + key + ", value:" + value + ", lay:" + lay + "}";
+		return "Node{key:" + key + ", value:" + value + "}";
 	}
 	
 	//=============================
@@ -116,25 +57,38 @@ public class Node implements Serializable{
 		return children.add(o);
 	}
 
-	public void putData(int k, Object v) {
-		//datas.put(k, v);
-		datas[k]=v;
+	public void setChildren(List<Node> children) {
+		this.children.clear();
+		if (children != null)
+			for (Node c : children) {
+				addChild(c);
+			}
+	}
+	
+	//=====================
+	
+	public List<Node> getChildren() {
+		return children;
 	}
 
-	public Object removeData(int k) {
-		//return datas.remove(k);
-		Object v = getData(k);
-		datas[k]=NULL;
-		return v;
+	public Node getParent() {
+		return parent;
+	}
+	
+	public String getKey() {
+		return key;
 	}
 
-	public Object getData(int k) {
-		//return datas.get(k);
-		return datas[k]==NULL?null:datas[k];
+	public void setKey(String id) {
+		this.key = id;
 	}
 
-	public boolean containsDataKey(int k) {
-		//return datas.containsKey(k);
-		return datas[k]!=NULL;
+	public String getValue() {
+		return value;
 	}
+	
+	public void setValue(String value) {
+		this.value = value;
+	}
+		
 }

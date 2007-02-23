@@ -25,28 +25,23 @@ public class TreeMapTest extends TestCase {
 		Node a = t.get("a");
 		assertEquals("a",a.getKey());
 		assertEquals("aa",a.getValue());
-		assertEquals(0,a.getLay());
 		assertEquals(2,a.getChildren().size());
 		
 		Node b = a.getChildren().get(0);
 		assertEquals("b",b.getKey());
 		assertEquals("bb",b.getValue());
-		assertEquals(1,b.getLay());
 		
 		Node c = b.getChildren().get(0);
 		assertEquals("c",c.getKey());
 		assertEquals("cc",c.getValue());
-		assertEquals(2,c.getLay());
 		
 		Node d = a.getChildren().get(1);
 		assertEquals("d",d.getKey());
 		assertEquals("dd",d.getValue());
-		assertEquals(1,d.getLay());
 		
 		Node e = t.get("e");
 		assertEquals("e",e.getKey());
 		assertEquals("ee",e.getValue());
-		assertEquals(0,e.getLay());
 		assertEquals(3,e.getChildren().size());
 		
 	}
@@ -62,7 +57,6 @@ public class TreeMapTest extends TestCase {
 		
 		Node a3 = a.getChildren().get(0);
 		assertEquals("a3",a3.getKey());
-		assertEquals(1,a3.getLay());
 		
 		Node a1 = a.getChildren().get(1);
 		assertEquals("a1",a1.getKey());
@@ -80,6 +74,12 @@ public class TreeMapTest extends TestCase {
 		Node a11 = a1.getChildren().get(0);
 		assertEquals("a11",a11.getKey());
 		
+		
+		Node d = t.get("d");
+		assertEquals("d0",d.getChildren().get(0).getKey());
+		assertEquals("d1",d.getChildren().get(1).getKey());
+		assertEquals("d2",d.getChildren().get(2).getKey());
+		
 	}
-	
+		
 }

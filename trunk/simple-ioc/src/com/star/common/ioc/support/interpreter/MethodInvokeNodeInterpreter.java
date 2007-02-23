@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.star.common.ioc.BeanFactory;
+import com.star.common.ioc.support.DefaultBeanFactory;
 import com.star.common.util.Node;
 import com.star.common.util.bean.MethodUtils;
 
@@ -35,7 +36,8 @@ public class MethodInvokeNodeInterpreter extends AbstractNodeInterpreter {
 			String interpreterName, Map<Object, Object> context, BeanFactory beanFactory) {
 		Object result =super.createObject(node, valueString,
 				 interpreterName,  context, beanFactory);
-		node.removeData(Node.VALUE_CACHE);
+		DefaultBeanFactory dbf =((DefaultBeanFactory)beanFactory);
+		dbf.removeCacheBean(node);
 		return result;
 	}
 	

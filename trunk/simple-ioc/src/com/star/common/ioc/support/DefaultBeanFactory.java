@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.WeakHashMap;
 
 import com.star.common.ioc.BeanFactory;
 import com.star.common.util.ClassUtils;
@@ -36,10 +37,13 @@ public class DefaultBeanFactory implements BeanFactory {
     private Map<String, Node> configMap;
 
     private BeanFactory parent;
+    
+	private Map<Node, Object> beanCacheMap ;
 
     public DefaultBeanFactory(Map<String, Node> configTreeMap) {
         this.configMap = configTreeMap;
         this.bootNodeInterpreter = new BootNodeInterpreter();
+		this.beanCacheMap = new WeakHashMap<Node, Object>();
     }
 
     /**
@@ -214,5 +218,22 @@ public class DefaultBeanFactory implements BeanFactory {
         }
         return list.get(0);
     }
+    
+	public Object putCacheBean(Node node, Object bean) {
+		return this.beanCacheMap.put(node, bean);
+	}
+
+	public Object removeCacheBean(Node node) {
+		return this.beanCacheMap.remove(node);
+	}
+	
+	public Object getCacheBean(Node node) {
+		return this.beanCacheMap.get(node);
+	}
+	
+	public boolean containsCacheBean(Node node) {
+		return this.beanCacheMap.containsKey(node);
+	}
+	
 
 }
