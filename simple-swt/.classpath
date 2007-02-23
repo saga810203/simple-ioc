@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="com/star/sms/richclient/SmsControlFactory.java|com/star/common/richclient/component/support/|com/star/common/richclient/component/DataConvertor.java|com/star/common/richclient/component/DataEditor.java|com/star/common/richclient/component/DataProvider.java|com/star/common/richclient/component/DataReceiver.java|com/star/common/richclient/component/DataShower.java|com/star/common/richclient/component/tree/support/|com/star/common/richclient/component/tree/ComplexComponentNode.java|com/star/common/richclient/component/tree/ComponentCommand.java|com/star/common/richclient/component/tree/ComponentEvent.java|com/star/common/richclient/component/tree/ComponentNode.java|com/star/common/richclient/component/tree/DataConvertor.java|com/star/common/richclient/component/tree/ParentComponentNodeAware.java|com/star/common/richclient/component/tree/SimpleComponentNode.java|com/star/common/richclient/component/tree/|com/star/common/richclient/component/support/|com/star/common/richclient/component/tree/|com/star/common/richclient/component/tree/adapter/|com/star/common/richclient/component/tree/support/" kind="src" path="src"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/simple-ioc"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/simple-ioc"/>
 	<classpathentry sourcepath="lib/swtforms-0.8.5-src.zip" kind="lib" path="lib/swtforms-0.8.5.jar"/>
 	<classpathentry kind="con" path="SWT_CONTAINER/JFACE/PLATFORM"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
