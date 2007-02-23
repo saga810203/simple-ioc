@@ -27,6 +27,8 @@ import com.star.common.util.TreeMap;
  */
 public class BarManagerFactory implements MenuBarManagerFactroy,CoolBarManagerFactory,StatusLineManagerFactory,BeanFactoryAware{
 
+	private static final String EXTEND_POINT = "<extend-point>";
+
 	private static final String COOL_BAR = "coolBar";
 
 	private static final String MENU_BAR = "menuBar";
@@ -95,6 +97,9 @@ public class BarManagerFactory implements MenuBarManagerFactroy,CoolBarManagerFa
 	}
 
 	private void addAction(IContributionManager manager, Node child) {
+		if(EXTEND_POINT.equals(child.getValue())){
+			return;
+		}
 		if (child.getKey()==null || "".equals(child.getKey())) {
 			manager.add(new Separator());
 		} else {
