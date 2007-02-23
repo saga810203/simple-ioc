@@ -72,7 +72,7 @@ public class BeanNodeInterpreter extends AbstractNodeInterpreter {
 		Class clazz = getClassName(node, valueString, beanFactory);
 		String beanId = node.getKey();
 		// 顶级bean，可能使用ref进行引用所以要进行循环依赖检测
-		boolean needCheck = node.getLay() == 0;
+		boolean needCheck = node.getParent()==null;
 		if (needCheck)
 			cycDependCheck(beanId);
 		try {
@@ -95,14 +95,15 @@ public class BeanNodeInterpreter extends AbstractNodeInterpreter {
 
 	protected Class getClassName(Node node, String className,
 			BeanFactory beanFactory) {
-		//	cache class;
-		if (node.containsDataKey(Node.OTHER_CACHE)) {
-			return (Class) node.getData(Node.OTHER_CACHE);
-		} else {
-			Class clazz = ClassNodeInterpreter.getClassForName(className,beanFactory);
-			node.putData(Node.OTHER_CACHE, clazz);
-			return clazz;
-		}
+		//	TODO cache class;
+//		if (node.containsDataKey(Node.OTHER_CACHE)) {
+//			return (Class) node.getData(Node.OTHER_CACHE);
+//		} else {
+//			Class clazz = ClassNodeInterpreter.getClassForName(className,beanFactory);
+//			node.putData(Node.OTHER_CACHE, clazz);
+//			return clazz;
+//		}
+		return ClassNodeInterpreter.getClassForName(className,beanFactory);
 	}
 
 	private void cycDependCheck(String beanId) {

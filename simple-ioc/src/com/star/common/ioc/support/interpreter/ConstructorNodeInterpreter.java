@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.util.Map;
 
 import com.star.common.ioc.BeanFactory;
+import com.star.common.ioc.support.DefaultBeanFactory;
 import com.star.common.util.ClassUtils;
 import com.star.common.util.Node;
 /**
@@ -27,9 +28,9 @@ public class ConstructorNodeInterpreter extends BeanNodeInterpreter {
 		//TODO 这里需要斟酌
 		for (Node child : node.getChildren()) {
 			if(child.getKey()!=null && child.getKey().startsWith("(constructor)")){
-
-				if(child.containsDataKey(Node.VALUE_CACHE)){
-					constructor = (Constructor)child.getData(Node.VALUE_CACHE);
+				DefaultBeanFactory dbf =((DefaultBeanFactory)beanFactory);
+				if(dbf.containsCacheBean(child)){
+					constructor = (Constructor)dbf.getCacheBean(child);
 					argArray = new Object[child.getChildren().size()];
 					for (int i=0;i<child.getChildren().size();i++) {
 						Node n = child.getChildren().get(i);
@@ -59,7 +60,7 @@ public class ConstructorNodeInterpreter extends BeanNodeInterpreter {
 						}
 					}
 					constructor = clazz.getConstructor(classArray);
-					child.putData(Node.VALUE_CACHE,constructor);
+					dbf.putCacheBean(child, constructor);
 				}
 				break;
 			}

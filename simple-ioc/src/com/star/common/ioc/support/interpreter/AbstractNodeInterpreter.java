@@ -3,6 +3,7 @@ package com.star.common.ioc.support.interpreter;
 import java.util.Map;
 
 import com.star.common.ioc.BeanFactory;
+import com.star.common.ioc.support.DefaultBeanFactory;
 import com.star.common.ioc.support.NodeInterpreter;
 import com.star.common.util.Node;
 
@@ -15,8 +16,11 @@ public abstract class AbstractNodeInterpreter implements NodeInterpreter {
 	
 	public Object createObject(Node node, String valueString,
 			String interpreterName, Map<Object, Object> context, BeanFactory beanFactory) {
-		if (node.containsDataKey(Node.VALUE_CACHE)) {
-			return node.getData(Node.VALUE_CACHE);
+		
+		DefaultBeanFactory dbf =((DefaultBeanFactory)beanFactory);
+		
+		if (dbf.containsCacheBean(node)) {
+			return dbf.getCacheBean(node);
 		} else {
 			Object v = null;
 			try {
@@ -25,7 +29,7 @@ public abstract class AbstractNodeInterpreter implements NodeInterpreter {
 			} catch (Exception e) {
 				throw new RuntimeException("bean load error: " + node, e);
 			}
-			node.putData(Node.VALUE_CACHE, v);
+			dbf.putCacheBean(node, v);
 			return v;
 		}
 	}
