@@ -86,12 +86,21 @@ public interface BeanFactory {
      * @return beanId数组，不可能为null
      */
     String[] getBeanIds();
-
+  
+    /**
+     * 找到beanId匹配模板的bean并且符合要求的对象类型。
+     * @param regex 匹配模板
+     * @param type 对象类型
+     * @return 结果列表
+     */
+    <T> List<T> getBeansByPatten(String regex,Class<T> type);
+    
     /**
      * 按照类型得到bean数组。
      * @param type 对象类型
      * @return beanId数组
      */
+    @Deprecated
     <T> List<T> getBeansByType(Class<T> type);
 
     /**
@@ -99,6 +108,7 @@ public interface BeanFactory {
      * @param type 对象类型
      * @return bean
      */
+    @Deprecated
     <T> T getBeanByType(Class<T> type);
 
 }

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.star.common.ioc.BeanFactory;
 import com.star.common.util.ClassUtils;
@@ -32,18 +34,30 @@ public class DefaultBeanFactory implements BeanFactory {
 
     private static final String BOOT_INTERPRETER_NAME = "boot";
 
+    /**
+     * 引导节点解释器。
+     */
     private NodeInterpreter bootNodeInterpreter;
 
+    /**
+     * 配置树Map。
+     */
     private Map<String, Node> configMap;
 
+    /**
+     * 缓存bean的Map。
+     */
+    private Map<Node, Object> beanCacheMap;
+
+    /**
+     * 父BeanFactory。
+     */
     private BeanFactory parent;
-    
-	private Map<Node, Object> beanCacheMap ;
 
     public DefaultBeanFactory(Map<String, Node> configTreeMap) {
         this.configMap = configTreeMap;
         this.bootNodeInterpreter = new BootNodeInterpreter();
-		this.beanCacheMap = new WeakHashMap<Node, Object>();
+        this.beanCacheMap = new WeakHashMap<Node, Object>();
     }
 
     /**
@@ -173,7 +187,11 @@ public class DefaultBeanFactory implements BeanFactory {
     public void setParent(BeanFactory parent) {
         this.parent = parent;
     }
-
+    /**
+     * 引导解析器。简单的使用节点的value作为类名进行实例化并作为结果返回。
+     * @author liuwei
+     * @version 1.0
+     */
     private class BootNodeInterpreter implements NodeInterpreter {
 
         private Map<String, Object> cache = new HashMap<String, Object>();
@@ -193,7 +211,10 @@ public class DefaultBeanFactory implements BeanFactory {
             }
         }
     }
-
+    /**
+     * (non-Javadoc)
+     * @see com.star.common.ioc.BeanFactory#getBeanIds()
+     */
     public String[] getBeanIds() {
         if (configMap == null) {
             return new String[0];
@@ -201,7 +222,31 @@ public class DefaultBeanFactory implements BeanFactory {
         Set<String> keys = configMap.keySet();
         return keys.toArray(new String[keys.size()]);
     }
+    
+    /**
+     * (non-Javadoc)
+     * @see com.star.common.ioc.BeanFactory#getBeansByPatten(String, Class)
+     */
+    @SuppressWarnings("unchecked")
+    public <T> List<T> getBeansByPatten(String regex, Class<T> type) {
+        List<T> list = new ArrayList<T>();
+        if (configMap == null) {
+            return list;
+        }
+        Pattern p = Pattern.compile(regex);
 
+        for (String beanId : getBeanIds()) {
+            Matcher m = p.matcher(beanId);
+            if(m.matches()){
+                Object bean = getBean(beanId);
+                if (bean == null || type == null || type.isAssignableFrom(bean.getClass())) {
+                    list.add((T)bean);
+                }
+            }
+        }
+        return list;
+    }
+    
     public <T> List<T> getBeansByType(Class<T> type) {
         List<T> list = new ArrayList<T>();
         for (String beanId : getBeanIds()) {
@@ -213,27 +258,27 @@ public class DefaultBeanFactory implements BeanFactory {
 
     public <T> T getBeanByType(Class<T> type) {
         List<T> list = getBeansByType(type);
-        if(list.size()!=1){
-            throw new RuntimeException("getBeansByType(type)!=1"); 
+        if (list.size() != 1) {
+            throw new RuntimeException("getBeansByType(type)!=1");
         }
         return list.get(0);
     }
-    
-	public Object putCacheBean(Node node, Object bean) {
-		return this.beanCacheMap.put(node, bean);
-	}
 
-	public Object removeCacheBean(Node node) {
-		return this.beanCacheMap.remove(node);
-	}
-	
-	public Object getCacheBean(Node node) {
-		return this.beanCacheMap.get(node);
-	}
-	
-	public boolean containsCacheBean(Node node) {
-		return this.beanCacheMap.containsKey(node);
-	}
-	
+    public Object putCacheBean(Node node, Object bean) {
+        return this.beanCacheMap.put(node, bean);
+    }
+
+    public Object removeCacheBean(Node node) {
+        return this.beanCacheMap.remove(node);
+    }
+
+    public Object getCacheBean(Node node) {
+        return this.beanCacheMap.get(node);
+    }
+
+    public boolean containsCacheBean(Node node) {
+        return this.beanCacheMap.containsKey(node);
+    }
+
 
 }
