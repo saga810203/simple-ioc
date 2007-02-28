@@ -84,33 +84,19 @@ public class BasicNodeInterpreters {
      * date½âÎö¡£
      */
     public static class DateNodeInterpreter extends AbstractNodeInterpreter {
-
-        protected DateFormat dateFormate;
-
         protected Object doCreateObject(Node node, String valueString, BeanFactory beanFactory,
                 Map<Object, Object> context, String interpreterName) throws Exception {
-            if (dateFormate == null) {
-                dateFormate = DateFormat.getDateInstance();
-            }
             return DateFormat.getDateInstance().parse(valueString);
-        }
-
-        /** (nothing.)@see java bean. */
-        public void setDateFormate(DateFormat dateFormate) {
-            this.dateFormate = dateFormate;
         }
     }
     
     /**
      * datetime½âÎö¡£
      */
-    public static class DateTimeNodeInterpreter extends DateNodeInterpreter {
+    public static class DateTimeNodeInterpreter extends AbstractNodeInterpreter {
         protected Object doCreateObject(Node node, String valueString, BeanFactory beanFactory,
                 Map<Object, Object> context, String interpreterName) throws Exception {
-            if (dateFormate == null) {
-                dateFormate = DateFormat.getDateTimeInstance();
-            }
-            return DateFormat.getDateInstance().parse(valueString);
+            return DateFormat.getDateTimeInstance().parse(valueString);
         }
     }
     
