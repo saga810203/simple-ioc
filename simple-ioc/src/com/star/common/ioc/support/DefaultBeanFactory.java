@@ -53,8 +53,12 @@ public class DefaultBeanFactory implements BeanFactory {
      * 父BeanFactory。
      */
     private BeanFactory parent;
+    
+    private List<BeanFactory> children;
+
 
     public DefaultBeanFactory(Map<String, Node> configTreeMap) {
+    	this.children=new ArrayList<BeanFactory>();
         this.configMap = configTreeMap;
         this.bootNodeInterpreter = new BootNodeInterpreter();
         this.beanCacheMap = new WeakHashMap<Node, Object>();
@@ -185,13 +189,31 @@ public class DefaultBeanFactory implements BeanFactory {
     }
 
     public void setParent(BeanFactory parent) {
+        removeFormParent();
         this.parent = parent;
+        addToParent();
     }
     /**
      * 引导解析器。简单的使用节点的value作为类名进行实例化并作为结果返回。
      * @author liuwei
      * @version 1.0
      */
+	private void addToParent() {
+		if(parent instanceof DefaultBeanFactory){
+        	((DefaultBeanFactory)parent).children.add(this);
+        }
+	}
+
+	private void removeFormParent() {
+		if(parent instanceof DefaultBeanFactory){
+        	((DefaultBeanFactory)parent).children.remove(this);
+        }
+	}
+    
+    public List<BeanFactory> getChildren(){
+    	return this.children;
+    }
+    
     private class BootNodeInterpreter implements NodeInterpreter {
 
         private Map<String, Object> cache = new HashMap<String, Object>();
