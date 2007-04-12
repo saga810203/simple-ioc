@@ -244,7 +244,7 @@ public class TreeBuilder {
 	 * 
 	 */
 	public static enum AddSiblingType {
-		/**
+		/** 
 		 * ÏòºóÌí¼Ó.
 		 */
 		backward,
