@@ -1,5 +1,7 @@
 package com.star.common.ioc.object;
 
+import java.util.List;
+
 import com.star.common.util.Node;
 
 public class D {
@@ -30,6 +32,8 @@ public class D {
 	
 	private Node p8 ;
 
+	private List<String> p9;
+	
 	public String getP1() {
 		return p1;
 	}
@@ -92,6 +96,14 @@ public class D {
 
 	public void setP8(Node p8) {
 		this.p8 = p8;
+	}
+
+	public List<String> getP9() {
+		return p9;
+	}
+
+	public void setP9(List<String> p9) {
+		this.p9 = p9;
 	}
 	
 }
