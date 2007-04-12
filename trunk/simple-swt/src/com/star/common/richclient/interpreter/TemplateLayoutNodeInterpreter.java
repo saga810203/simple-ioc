@@ -21,7 +21,7 @@ public class TemplateLayoutNodeInterpreter extends
 			Node c = node.getChildren().get(i);
 
 			int index = c.getKey().indexOf('.');
-			if (index > 0) {
+			if (index >= 0) {
 				String cfId = c.getKey().substring(0, index);
 				String attrKey = c.getKey().substring(index + 1);
 				Object attr = beanFactory.getBean(c.getValue());
