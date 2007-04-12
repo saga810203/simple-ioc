@@ -151,6 +151,9 @@ public class CompositeFactorys {
 
 	public static void setAttribute(IControlFactory root,
 			String controlFactoryId, String attributeKey, Object attribute) {
+		if(controlFactoryId==null || controlFactoryId.endsWith("")){
+			root.setAttribute(attributeKey, attribute);
+		}
 		if (root instanceof CompositeFactory) {
 			IControlFactory[] children = ((CompositeFactory) root)
 					.getChildren();
