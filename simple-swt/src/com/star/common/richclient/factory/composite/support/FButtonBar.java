@@ -3,13 +3,17 @@ package com.star.common.richclient.factory.composite.support;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 import com.star.common.richclient.factory.IControlFactory;
 import com.star.common.richclient.factory.composite.support.ParameterCompositeFactory;
 
 public class FButtonBar extends ParameterCompositeFactory {
+	private static final int DEFAULT_WIDTH = 80;
+
 	public FButtonBar(){}
 	public FButtonBar(String id, String parameters, IControlFactory... children) {
 		super(id, parameters, children);
@@ -39,9 +43,12 @@ public class FButtonBar extends ParameterCompositeFactory {
 	}
 
 	protected void createChildren2(Composite control) {
+		int width =this.getIntParam("width", DEFAULT_WIDTH);
+		int height =this.getIntParam("height", SWT.DEFAULT);
 		IControlFactory[] children = getChildren();
 		for(int i=0;i<children.length;i++){
-			createChild(control, i);
+			Control c= createChild(control, i);
+			c.setLayoutData(new RowData(width,height));
 		}
 	}
 	
@@ -52,7 +59,7 @@ public class FButtonBar extends ParameterCompositeFactory {
 	
 	@Override
 	protected String[] doGetValidParamKey() {
-		return new String[] { };
+		return new String[] { "width","height" };
 	}
 
 }
