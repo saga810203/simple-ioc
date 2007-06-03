@@ -11,7 +11,7 @@ import java.util.List;
  * @author liuwei
  * @version 1.0
  */
-public class Node implements Serializable{
+public class Node implements Serializable,Cloneable{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -49,6 +49,22 @@ public class Node implements Serializable{
 	public String toString() {
 		return "Node{key:" + key + ", value:" + value + "}";
 	}
+
+	public Node clone(){
+		Node node = null;
+		try {
+			node = (Node)super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		node.parent = null;
+		node.children = new ArrayList<Node>();
+		for (Node child : children) {
+			Node c =child.clone();
+			node.addChild(c);
+		}
+		return node;
+	}
 	
 	//=============================
 	
@@ -64,9 +80,9 @@ public class Node implements Serializable{
 				addChild(c);
 			}
 	}
-	
+
 	//=====================
-	
+
 	public List<Node> getChildren() {
 		return children;
 	}

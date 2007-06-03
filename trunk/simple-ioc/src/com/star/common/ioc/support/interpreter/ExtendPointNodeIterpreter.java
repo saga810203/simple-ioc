@@ -45,7 +45,7 @@ public class ExtendPointNodeIterpreter extends AbstractNodeInterpreter {
 		return extendList;
 	}
 
-	private void addExtends(String patten, List extendList, BeanFactory bf) {
+	public static void addExtends(String patten, List extendList, BeanFactory bf) {
 		extendList.addAll(bf.getBeansByPatten(patten, null));
 		if (bf instanceof DefaultBeanFactory) {
 			List<BeanFactory> bfs = ((DefaultBeanFactory) bf)
