@@ -38,6 +38,8 @@ public class MenuNodeInterpreter extends AbstractNodeInterpreter {
 			BeanFactory beanFactory, Map<Object, Object> context,
 			String interpreterName) throws Exception {
 		node = node.clone();
+		setBeanFactory(node ,beanFactory);
+		
 		if(extendsSearchLock){
 			extendsSearchLock = false;
 			try {
@@ -60,6 +62,13 @@ public class MenuNodeInterpreter extends AbstractNodeInterpreter {
 		return node;
 	}
 	
+	private void setBeanFactory(Node node, BeanFactory beanFactory) {
+		node.setObject(beanFactory);
+		for(Node n:node.getChildren()){
+			setBeanFactory(n, beanFactory);
+		}
+	}
+
 	private void addExtends(String patten,String patten2, List<Node> extendList, BeanFactory bf) {		
 		extendList.addAll(bf.getBeansByPatten(patten, Node.class));
 		if (bf instanceof DefaultBeanFactory) {
