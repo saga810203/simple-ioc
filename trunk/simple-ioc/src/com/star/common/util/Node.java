@@ -23,6 +23,8 @@ public class Node implements Serializable,Cloneable{
 	
 	private Node parent;
 	
+	private Object object;
+	
 	//=====================
 	
 	public String getKeyPath() {
@@ -105,6 +107,14 @@ public class Node implements Serializable,Cloneable{
 	
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	public Object getObject() {
+		return object;
+	}
+
+	public void setObject(Object object) {
+		this.object = object;
 	}
 		
 }
