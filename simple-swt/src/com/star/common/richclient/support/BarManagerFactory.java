@@ -107,7 +107,7 @@ public class BarManagerFactory implements MenuBarManagerFactroy,
 				addAction(manager, child);
 			} else {
 				MenuManager c2 = new MenuManager(getText(child.getKey(), child
-						.getValue()), child.getKey());
+						.getValue(),(BeanFactory)child.getObject()), child.getKey());
 				addMenu(child, c2);
 				manager.add(c2);
 			}
@@ -135,7 +135,7 @@ public class BarManagerFactory implements MenuBarManagerFactroy,
 	}
 
 	private boolean attemptAction(IContributionManager manager, Node child) {
-		Action action = getAction(child.getKey(), child.getValue());
+		Action action = getAction(child.getKey(), child.getValue(),(BeanFactory)child.getObject());
 		ActionContributionItem item = new ActionContributionItem(action);
 		item.setMode(mode);
 		manager.add(item);
@@ -172,13 +172,13 @@ public class BarManagerFactory implements MenuBarManagerFactroy,
 
 	// =======================================
 
-	protected Action getAction(String id, String defaultText) {
-		Action action = getBeanFactory().containsBean(id) ? getBeanFactory()
-				.getBean(id, Action.class) : getDefaultAction(id, defaultText);
+	protected Action getAction(String id, String defaultText,BeanFactory beanFactory) {
+		Action action = getBeanFactory().containsBean(id) ? beanFactory
+				.getBean(id, Action.class) : getDefaultAction(id, defaultText,beanFactory);
 		return action;
 	}
 
-	protected Action getDefaultAction(String id, String defaultText) {
+	protected Action getDefaultAction(String id, String defaultText,BeanFactory beanFactory) {
 		Action a = new Action() {
 			public void run() {
 				notifyResult(true);
@@ -187,15 +187,15 @@ public class BarManagerFactory implements MenuBarManagerFactroy,
 		a.setId(id);
 
 		// TODO …Ë÷√Œƒ◊÷Õº±Í
-		a.setText(getText(id, defaultText));
+		a.setText(getText(id, defaultText,beanFactory));
 		// a.setHoverImageDescriptor();
 		// a.setDisabledImageDescriptor();
 
 		return a;
 	}
 
-	protected String getText(String id, String defaultText) {
-		String text = getBeanFactory().getBean(
+	protected String getText(String id, String defaultText,BeanFactory beanFactory) {
+		String text = beanFactory.getBean(
 				"(message_can_null)" + id + ".text", String.class);
 		return text == null ? defaultText : text;
 	}
